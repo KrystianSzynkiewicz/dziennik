@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Sen:wght@500&display=swap" rel="stylesheet">
+    <style>
+
+        .book {
+            position: absolute;
+            z-index: 10;
+            width: 100vw;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            background: linear-gradient(45deg, rgb(17, 8, 8), rgb(63, 58, 11));
+        }
+        .book img {
+            position: absolute;
+            left: 10vw;
+            top: 10vh;
+            cursor: pointer;
+            transition: 3s;
+        }
+        .book img:hover{
+            transform: scale(1.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            padding: 20px;
+            padding-bottom: 40px;
+            background: url(img/old__paper.jpg);
+            text-align: center;
+            /* font-family: 'Dancing Script'; */
+
+            font-size: 3vw;
+
+        }
+        p {
+            padding: 60px;
+        }
+
+        @media screen and (max-width:800px) {
+            body {
+                font-size: 3vh;
+            }
+            .book img {
+                width: 80%;
+            }
+
+        }
+
+        .deactive {
+            display: none;
+        }
+
+        .fade__up {
+            animation: fadeUp 3s;
+        }
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .fade__down {
+            animation: fadeDown 3s;
+        }
+
+        @keyframes fadeDown {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        button {
+            font-size: 25px;
+            font-family: 'Dancing Script';
+            padding: 10px;
+            border-radius: 20px;
+            background: url(img/old__paper.jpg);
+            transition: 1s;
+            cursor: pointer;
+            -webkit-box-shadow: 1px 24px 92px 38px rgba(0, 0, 0, 0.45);
+            -moz-box-shadow: 1px 24px 92px 38px rgba(0, 0, 0, 0.45);
+            box-shadow: 1px 24px 92px 38px rgba(0, 0, 0, 0.45);
+        }
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 1px 24px 92px 38px rgba(255, 255, 255, 0.45);
+        }
+        #name {
+
+            background: url(img/old__paper.jpg);
+            border: none;
+            font-family: 'Dancing Script';
+            font-size: 30px;
+            height: 30px;
+
+        }
+    </style>
+    </head>
+
+    <body>
+
+        <div id="book__box" class="book">
+            <img id="book" src="img/book.png" alt="">
+        </div>
+
+        <audio id="theme">
+            <source src="music/tortuga-epic-movie-adventure-music-4284.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <audio id="theme2">
+            <source src="music/unio-mystica-156380.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <audio id="nextPage">
+            <source src="music/mixkit-big-paper-page-turn-1105.wav" type="audio/wav">
+        </audio>
+        
+        <p id="text__place">
+            
+        </p>
+
+        <button id="start">START</button>
+
+        <form class="deactive" action="" id="form">
+            <label for="name">Podaj imię?</label>
+            <input type="text" id="name" name="name"><br><br>
+
+            <button type="submit" id="enter">następna strona</button>
+        </form>
+
+
+        <script>
+            const texts = {
+                firstText: `
+                Tajemica zaklętego
+                <br>
+                <br>
+                Witaj, badaczu tajemnic. Przed tobą otwiera się zaklęta opowieść. 
+                Pamiętnik, jego strony pełne zapomnianych słów. 
+                Skrywa on... wspomnienia... swojego właściciela – wynalazcy. 
+                Sprawdź co pozostało w ciemnych zwojach jego kart.
+                `,
+                generalInfo: `
+                Poprzedni właściciel, był twórcą niesamowitych wynalazków, 
+                które zmieniłyby bieg historii. Jednak pewnego dnia jego prace 
+                zaczęły stawać się zbyt potężne i niebezpieczne. Przed samą śmiercią, 
+                zdecydował się uwięzić swoje myśli i osiągnięcia w pamiętniku.
+                Twoje wybory wpłyną na odkrycie jego dzieł oraz na to, czy duch wynalazcy 
+                zostanie uwolniony i w jaki sposób jego twórczość wpłynie na świat. 
+                A może odkrył on coś jeszcze? 
+                Czy dasz radę odszyfrować tajemnice wynalazców, 
+                rozwiązać ich zagadki i rozwikłać mroczne sekrety?
+                Czas rozpocząć podróż przez czas i przestrzeń, aby odkryć genialne 
+                prace właściciela tej księgi i uwolnić go spod jarzma, 
+                które skrywane jest zakamarkach pamiętnika.
+                `,
+
+                lvl1Text1: `
+                Na skrzyżowaniu czasów i dźwięków,
+                <br>
+                Zaklęte wspomnienia skrywam w głębi swych zwojów.
+                <br>
+                Cztery klucze, cztery strony, cztery tajemnice znane,
+                <br>
+                Aby je odsłonić, musisz poprzez pryzmat myśli swych patrzeć z wprawą.
+                <br>
+                <br>
+                Pierwszy klucz to serce pełne współczucia i mądrości,
+                <br>
+                Drugim jest odwaga, która pokona ciemności.
+                <br>
+                Trzeci to spójrz na przeszłość, by przyszłość zrozumieć,
+                <br>
+                A ostatni klucz to wewnętrzne ja, co ducha poprzedniego posiadać będzie.
+                <br>
+                <br>
+                Gdy te cztery klucze odnajdziesz w tajemnym świetle,
+                <br>
+                Zaklęta w pamiętniku dusza zostanie uwolniona, by odejść w spokojny wieczór."
+                <br>
+                <br>
+                Co znajduje się na skrzyżowaniu czasów i dźwięków, a cztery klucze prowadzące do odsłonięcia tajemnicy? 
+                Czy zdołasz je odnaleźć i uwolnić ducha poprzedniego właściciela pamiętnika?
+                `
+            }
+
+            const book = document.getElementById('book');
+            const bookBox = document.getElementById('book__box');
+            const textPlace = document.getElementById('text__place');
+            const start = document.getElementById('start');
+            const enter = document.getElementById('enter');
+            const form = document.getElementById('form');
+            //audio
+            const theme = document.getElementById("theme"); 
+            const theme2 = document.getElementById("theme2"); 
+            const nextPage = document.getElementById("nextPage"); 
+
+
+            //firstSlide
+            book.addEventListener('click', ()=> {
+                theme.play();
+
+                bookBox.classList.add('fade__down');
+                setTimeout(()=>{
+                    bookBox.classList.add('deactive');
+                }, 3000)
+
+                textPlace.classList.add('fade__up')
+            textPlace.innerHTML= texts.firstText;
+                setTimeout(()=>{
+                textPlace.classList.remove('fade__up')
+                },2000)
+            });
+
+            
+            //secondSlide
+            function playAudio() {
+            theme.pause(); 
+            theme2.loop = true;
+            theme2.play();
+            nextPage.play(); 
+            }
+
+            start.addEventListener('click', ()=>{
+                textPlace.classList.add('fade__up')
+                    setTimeout(()=>{
+                    textPlace.classList.remove('fade__up')
+                },3000)
+                textPlace.innerHTML= texts.generalInfo;
+                form.classList.remove('deactive');
+                start.classList.add('deactive')
+                playAudio();
+            });
+
+
+            // texts.start.addEventListener('click', ()=>{
+            //     textPlace.innerHTML= texts.lvl1Text1;
+            // })
+
+        </script>
+    </body>
+</html>
